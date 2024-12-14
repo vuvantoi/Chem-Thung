@@ -7,7 +7,7 @@ public class DifficultyButton : MonoBehaviour
 {
     private Button button;
     private GameManager gameManager;
-    public int difficulty;
+    public float difficulty;
 
 
     // Start is called before the first frame update

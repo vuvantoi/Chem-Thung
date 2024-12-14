@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameoverText;
     public TextMeshProUGUI liveText;
+    public TextMeshProUGUI highScoreText;
     public Button replayButton;
     public GameObject titleScreen;
     public bool isGameActive;
@@ -19,14 +20,33 @@ public class GameManager : MonoBehaviour
     
     private bool isPaused = false;
 
-
+    private int highScore;
     private int score;
     private int live;
     private float spawnRate = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Lấy điểm cao nhất từ PlayerPrefs khi khởi động trò chơi
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        UpdateHighScoreText();
+    }
+    public void UpdateScore(int addToScore)
+    {
+        score += addToScore;
+        scoreText.text = "Score: " + score;
+
+        // Cập nhật điểm cao nếu điểm hiện tại vượt qua
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore); // Lưu vào bộ nhớ
+            UpdateHighScoreText();
+        }
+    }
+    private void UpdateHighScoreText()
+    {
+        highScoreText.text = "High Score: " + highScore;
     }
 
     // Update is called once per frame
@@ -68,23 +88,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame(int difficulty)
+    public void StartGame(float difficulty)
     {
         isGameActive = true;
         score = 0;
         live = 3;
-        spawnRate /= difficulty;
+        spawnRate -= difficulty;
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
         UpdateLive(0);
         titleScreen.SetActive(false);
     }
 
-    public void UpdateScore(int addToScore)
-    {
-        score += addToScore;
-        scoreText.text = "Score: " + score;
-    }
+    //public void UpdateScore(int addToScore)
+    //{
+    //    score += addToScore;
+    //    scoreText.text = "Score: " + score;
+    //}
 
     public void UpdateLive(int dropToLive)
     { 
