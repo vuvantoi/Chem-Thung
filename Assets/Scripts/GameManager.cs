@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         if (score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt("HighScore", highScore); // Lưu vào bộ nhớ
+            PlayerPrefs.SetInt("HightScore", highScore); // Lưu vào bộ nhớ
             UpdateHighScoreText();
         }
     }
@@ -100,11 +100,6 @@ public class GameManager : MonoBehaviour
         titleScreen.SetActive(false);
     }
 
-    //public void UpdateScore(int addToScore)
-    //{
-    //    score += addToScore;
-    //    scoreText.text = "Score: " + score;
-    //}
 
     public void UpdateLive(int dropToLive)
     { 
